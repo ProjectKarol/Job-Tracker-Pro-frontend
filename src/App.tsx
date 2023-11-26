@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { CssBaseline, Container, Box } from '@mui/material';
-import ResponsiveAppBar from './components/AppBar.component';
+import { Container, Box } from '@mui/material';
 import axios from 'axios';
 import JobCard from './components/JobCard.component';
+import { JobDtoSchema, JobsDtoSchema } from './dto/FetchJob';
 
 
 function App() {
@@ -21,25 +21,19 @@ function App() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  // Parse and validate the data
+  const jobs = JobsDtoSchema.parse(data);
+  console.log(jobs);
   const displayJobs = () => {
-    return data.map((job: any) => {
+    return jobs.map((job) => {
       return (
-        <div key={job.id}>
-          <h1>{job.company}</h1>
-          <h2>{job.title}</h2>
-          <h3>{job.location}</h3>
-          <h4>{job.description}</h4>
-          <JobCard />
-        </div>
+        <JobCard data={job} />
       );
     });
   };
 
   return (
     <React.Fragment>
-      <ResponsiveAppBar />
-      <CssBaseline />
       <Container maxWidth="lg">
         <Box sx={{ bgcolor: 'white' }} >
           {displayJobs()}

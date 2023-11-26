@@ -14,6 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { JobDtoSchema, JobDtoType, JobsDtoSchema } from '../dto/FetchJob';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -30,15 +31,17 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function JobCard() {
+export default function JobCard({ data }: {
+  data: JobDtoType,
+}) {
   const [expanded, setExpanded] = React.useState(false);
-
+  console.log('job card 35', data);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: '20px' }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -50,13 +53,13 @@ export default function JobCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={data.name}
         subheader="September 14, 2016"
       />
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image={data.image_url}
         alt="Paella dish"
       />
       <CardContent>
